@@ -1710,8 +1710,10 @@ CPLGetConfigOption( const char *pszKey, const char *pszDefault )
             CSLFetchNameValue(const_cast<char **>(g_papszConfigOptions), pszKey);
     }
 
+#ifndef RTC_WINDOWS_UNIVERSAL
     if( pszResult == nullptr )
         pszResult = getenv(pszKey);
+#endif // RTC_WINDOWS_UNIVERSAL
 
     if( pszResult == nullptr )
         return pszDefault;

@@ -598,13 +598,15 @@ static CPLString GetProj4Filename(const char* pszFilename)
     if (*pszFilename == '~' &&
         (pszFilename[1] == '/' || pszFilename[1] == '\\') )
     {
+#ifndef RTC_WINDOWS_UNIVERSAL
         if ((pszSysname = getenv("HOME")) != nullptr)
         {
             osFilename = CPLFormFilename(pszSysname, pszFilename + 1, nullptr);
         }
+#endif // RTC_WINDOWS_UNIVERSAL
         return osFilename;
     }
-
+#ifndef RTC_WINDOWS_UNIVERSAL
     /* or is environment PROJ_LIB defined */
     else if ((pszSysname = getenv("PROJ_LIB")) != nullptr)
     {
@@ -614,7 +616,7 @@ static CPLString GetProj4Filename(const char* pszFilename)
             return osFilename;
         osFilename.clear();
     }
-
+#endif // RTC_WINDOWS_UNIVERSAL
 
 #if defined(PROJ_STATIC) && PJ_VERSION >= 490
     // Super messy. proj.4 up to 4.9.3 had no public API to return the full

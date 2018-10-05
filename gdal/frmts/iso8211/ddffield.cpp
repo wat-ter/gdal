@@ -74,8 +74,10 @@ void DDFField::Dump( FILE * fp )
 {
     int nMaxRepeat = 8;
 
+#ifndef RTC_WINDOWS_UNIVERSAL
     if( getenv("DDF_MAXDUMP") != nullptr )
         nMaxRepeat = atoi(getenv("DDF_MAXDUMP"));
+#endif // RTC_WINDOWS_UNIVERSAL
 
     fprintf( fp, "  DDFField:\n" );
     fprintf( fp, "      Tag = `%s'\n", poDefn->GetName() );

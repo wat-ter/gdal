@@ -146,6 +146,7 @@ void *CPLGetSymbol( const char * pszLibrary, const char * pszSymbolName )
     void *pLibrary = nullptr;
     void *pSymbol = nullptr;
 
+ #ifndef RTC_WINDOWS_UNIVERSAL
     // Avoid error boxes to pop up (#5211, #5525).
     UINT uOldErrorMode =
         SetErrorMode(SEM_NOOPENFILEERRORBOX | SEM_FAILCRITICALERRORS);
@@ -196,7 +197,7 @@ void *CPLGetSymbol( const char * pszLibrary, const char * pszSymbolName )
                   "Can't find requested entry point: %s", pszSymbolName );
         return nullptr;
     }
-
+#endif // RTC_WINDOWS_UNIVERSAL
     return( pSymbol );
 }
 
