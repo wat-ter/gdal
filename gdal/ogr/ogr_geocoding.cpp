@@ -51,6 +51,7 @@
 
 #include <time.h>
 #include <windows.h>
+#include <winsock2.h>
 
 // Recent mingw define struct timezone.
 #if !(defined(__GNUC__) && defined(_TIMEZONE_DEFINED))

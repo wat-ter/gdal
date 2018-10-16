@@ -357,12 +357,14 @@ int VSIWin32Handle::Truncate( vsi_l_offset nNewSize )
 {
     vsi_l_offset nCur = Tell();
     Seek( 0, SEEK_END );
+#ifndef RTC_WINDOWS_UNIVERSAL
     if( nNewSize > Tell() )
     {
         // Enable sparse files if growing size
         DWORD dwTemp;
         DeviceIoControl(hFile, FSCTL_SET_SPARSE, nullptr, 0, nullptr, 0, &dwTemp, nullptr);
     }
+#endif // RTC_WINDOWS_UNIVERSAL
     Seek( nNewSize, SEEK_SET );
     BOOL bRes = SetEndOfFile( hFile );
     Seek( nCur, SEEK_SET );
@@ -388,7 +390,7 @@ VSIRangeStatus VSIWin32Handle::GetRangeStatus( vsi_l_offset
                                               )
 {
     // Not available on mingw includes
-#ifdef FSCTL_QUERY_ALLOCATED_RANGES
+#if defined(FSCTL_QUERY_ALLOCATED_RANGES) && !defined(RTC_WINDOWS_UNIVERSAL)
     FILE_ALLOCATED_RANGE_BUFFER sQueryRange;
     FILE_ALLOCATED_RANGE_BUFFER asOutputRange[1];
     DWORD nOutputBytes = 0;
@@ -432,6 +434,7 @@ VSIRangeStatus VSIWin32Handle::GetRangeStatus( vsi_l_offset
 
 static const char* CPLGetWineVersion()
 {
+#ifndef RTC_WINDOWS_UNIVERSAL
     HMODULE hntdll = GetModuleHandle("ntdll.dll");
     if( hntdll == nullptr )
         return nullptr;
@@ -442,6 +445,9 @@ static const char* CPLGetWineVersion()
         return nullptr;
 
     return pwine_get_version();
+#else
+    return nullptr;
+#endif // RTC_WINDOWS_UNIVERSAL
 }
 
 /************************************************************************/
@@ -543,6 +549,7 @@ VSIVirtualHandle *VSIWin32FilesystemHandler::Open( const char *pszFilename,
                                                    bool bSetError )
 
 {
+#ifndef RTC_WINDOWS_UNIVERSAL
     DWORD dwDesiredAccess;
     DWORD dwCreationDisposition;
     DWORD dwFlagsAndAttributes;
@@ -693,6 +700,9 @@ VSIVirtualHandle *VSIWin32FilesystemHandler::Open( const char *pszFilename,
     {
         return poHandle;
     }
+#else
+return nullptr;
+#endif // RTC_WINDOWS_UNIVERSAL
 }
 
 /************************************************************************/

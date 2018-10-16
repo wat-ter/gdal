@@ -1071,6 +1071,7 @@ void CPLDestroyCond( CPLCond *hCond )
 void *CPLLockFile( const char *pszPath, double dfWaitInSeconds )
 
 {
+#ifndef RTC_WINDOWS_UNIVERSAL
     char *pszLockFilename =
         static_cast<char *>(CPLMalloc(strlen(pszPath) + 30));
     snprintf( pszLockFilename, strlen(pszPath) + 30, "%s.lock", pszPath );
@@ -1105,6 +1106,9 @@ void *CPLLockFile( const char *pszPath, double dfWaitInSeconds )
     }
 
     return static_cast<void *>(hLockFile);
+#else
+    return nullptr;
+#endif // RTC_WINDOWS_UNIVERSAL
 }
 
 /************************************************************************/

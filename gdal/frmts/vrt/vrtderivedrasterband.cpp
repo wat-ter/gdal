@@ -459,7 +459,7 @@ static bool LoadPythonAPI()
         }
     }
 
-#elif defined(WIN32)
+#elif defined(WIN32) && !defined(RTC_WINDOWS_UNIVERSAL)
 
     // First try in the current process in case the python symbols would
     // be already loaded

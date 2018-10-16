@@ -264,10 +264,12 @@ CPLSpawnedProcess* CPLSpawnAsync(
         if( !CreatePipe(&pipe_in[IN_FOR_PARENT], &pipe_in[OUT_FOR_PARENT],
                         &saAttr, 0) )
             goto err_pipe;
+#ifndef RTC_WINDOWS_UNIVERSAL
         // The child must not inherit from the write side of the pipe_in.
         if( !SetHandleInformation(pipe_in[OUT_FOR_PARENT], HANDLE_FLAG_INHERIT,
                                   0) )
             goto err_pipe;
+#endif // RTC_WINDOWS_UNIVERSAL
     }
 
     if( bCreateOutputPipe )
@@ -275,10 +277,12 @@ CPLSpawnedProcess* CPLSpawnAsync(
         if( !CreatePipe(&pipe_out[IN_FOR_PARENT], &pipe_out[OUT_FOR_PARENT],
                         &saAttr, 0) )
             goto err_pipe;
+#ifndef RTC_WINDOWS_UNIVERSAL
         // The child must not inherit from the read side of the pipe_out.
         if( !SetHandleInformation(pipe_out[IN_FOR_PARENT], HANDLE_FLAG_INHERIT,
                                   0) )
             goto err_pipe;
+#endif // RTC_WINDOWS_UNIVERSAL
     }
 
     if( bCreateErrorPipe )
@@ -286,10 +290,12 @@ CPLSpawnedProcess* CPLSpawnAsync(
         if( !CreatePipe(&pipe_err[IN_FOR_PARENT], &pipe_err[OUT_FOR_PARENT],
                         &saAttr, 0) )
             goto err_pipe;
+#ifndef RTC_WINDOWS_UNIVERSAL
         // The child must not inherit from the read side of the pipe_err.
         if( !SetHandleInformation(pipe_err[IN_FOR_PARENT], HANDLE_FLAG_INHERIT,
                                   0) )
             goto err_pipe;
+#endif // RTC_WINDOWS_UNIVERSAL
     }
 
     // TODO(schwehr): Consider initializing piProcInfo.
@@ -307,7 +313,9 @@ CPLSpawnedProcess* CPLSpawnAsync(
     siStartInfo.hStdError =
         bCreateErrorPipe
         ? pipe_err[OUT_FOR_PARENT] : GetStdHandle(STD_ERROR_HANDLE);
+#ifndef RTC_WINDOWS_UNIVERSAL
     siStartInfo.dwFlags |= STARTF_USESTDHANDLES;
+#endif // RTC_WINDOWS_UNIVERSAL
 
     for( int i = 0; papszArgv[i] != nullptr; i++ )
     {

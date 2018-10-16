@@ -135,7 +135,7 @@ static void GDALDestructor(void)
 /*  The library set-up/clean-up routine implemented as DllMain entry    */
 /*  point specific for Windows.                                         */
 /************************************************************************/
-#ifdef _MSC_VER
+#if defined _MSC_VER && !defined(CPL_DISABLE_DLL)
 
 #include <windows.h>
 
