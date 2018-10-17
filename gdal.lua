@@ -1253,6 +1253,7 @@ project "gdal"
 
       defines {
         neon_defines,
+        "RTC_NO_HAVE_UINT128_T", -- temporary fix to remove uint128_t support
       }
 
     -- -------------------------------------------------------------
@@ -1269,6 +1270,7 @@ project "gdal"
 
       defines {
         neon_defines,
+        "RTC_NO_HAVE_UINT128_T", -- temporary fix to remove uint128_t support
       }
 
     -- -------------------------------------------------------------
@@ -1285,6 +1287,7 @@ project "gdal"
 
       defines {
         intel_intrinsic_defines,
+        "RTC_NO_HAVE_UINT128_T", -- temporary fix to remove uint128_t support
       }
 
     -- -------------------------------------------------------------
@@ -1301,6 +1304,7 @@ project "gdal"
 
       defines {
         intel_intrinsic_defines,
+        "RTC_NO_HAVE_UINT128_T", -- temporary fix to remove uint128_t support
       }
 
     -- -------------------------------------------------------------

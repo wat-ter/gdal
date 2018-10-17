@@ -3856,7 +3856,7 @@ CPLErr CPL_STDCALL GDALGetRasterStatistics(
 /*                         GDALUInt128                                  */
 /************************************************************************/
 
-#ifdef HAVE_UINT128_T
+#if defined(HAVE_UINT128_T) && !defined(RTC_NO_HAVE_UINT128_T)
 class GDALUInt128
 {
         __uint128_t val;
