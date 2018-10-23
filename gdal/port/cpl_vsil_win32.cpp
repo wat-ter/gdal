@@ -549,7 +549,6 @@ VSIVirtualHandle *VSIWin32FilesystemHandler::Open( const char *pszFilename,
                                                    bool bSetError )
 
 {
-#ifndef RTC_WINDOWS_UNIVERSAL
     DWORD dwDesiredAccess;
     DWORD dwCreationDisposition;
     DWORD dwFlagsAndAttributes;
@@ -619,10 +618,16 @@ VSIVirtualHandle *VSIWin32FilesystemHandler::Open( const char *pszFilename,
         wchar_t *pwszFilename =
             CPLRecodeToWChar( pszFilename, CPL_ENC_UTF8, CPL_ENC_UCS2 );
 
+#ifndef RTC_WINDOWS_UNIVERSAL
         hFile = CreateFileW( pwszFilename, dwDesiredAccess,
                             bShared ? FILE_SHARE_READ | FILE_SHARE_WRITE : 0,
                             nullptr, dwCreationDisposition,  dwFlagsAndAttributes,
                             nullptr );
+#else
+        hFile = CreateFile2(pwszFilename, dwDesiredAccess,
+            FILE_SHARE_READ | FILE_SHARE_WRITE,
+            dwCreationDisposition, NULL);
+#endif
         if ( hFile == INVALID_HANDLE_VALUE &&
             !VSIWin32IsLongFilename(pwszFilename) )
         {
@@ -647,19 +652,29 @@ VSIVirtualHandle *VSIWin32FilesystemHandler::Open( const char *pszFilename,
         {
             VSIWin32TryLongFilename(pwszFilename);
             nLastError = 0;
+#ifndef RTC_WINDOWS_UNIVERSAL
             hFile = CreateFileW( pwszFilename, dwDesiredAccess,
                             bShared ? FILE_SHARE_READ | FILE_SHARE_WRITE : 0,
                             nullptr, dwCreationDisposition,  dwFlagsAndAttributes,
                             nullptr );
+#else
+            hFile = CreateFile2(pwszFilename, dwDesiredAccess,
+                            bShared ? FILE_SHARE_READ | FILE_SHARE_WRITE : 0,
+                            dwCreationDisposition, NULL);
+#endif
         }
         CPLFree( pwszFilename );
     }
     else
     {
+#ifndef RTC_WINDOWS_UNIVERSAL
         hFile = CreateFile( pszFilename, dwDesiredAccess,
                             bShared ? FILE_SHARE_READ | FILE_SHARE_WRITE : 0,
                             nullptr, dwCreationDisposition,  dwFlagsAndAttributes,
                             nullptr );
+#else
+        hFile = INVALID_HANDLE_VALUE;
+#endif
     }
 
     if( hFile == INVALID_HANDLE_VALUE )
@@ -700,9 +715,6 @@ VSIVirtualHandle *VSIWin32FilesystemHandler::Open( const char *pszFilename,
     {
         return poHandle;
     }
-#else
-return nullptr;
-#endif // RTC_WINDOWS_UNIVERSAL
 }
 
 /************************************************************************/
