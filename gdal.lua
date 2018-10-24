@@ -1064,7 +1064,7 @@ project "gdal"
   -- configurations
   -- -------------------------------------------------------------
 
-  if (os.is("windows") and not _TARGET_IS_WINRT and not _TARGET_IS_WINUWP) then
+  if (os.is("windows") and not _TARGET_IS_WINUWP) then
     -- -------------------------------------------------------------
     -- configuration { "windows" }
     -- -------------------------------------------------------------
