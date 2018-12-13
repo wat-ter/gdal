@@ -1064,7 +1064,7 @@ project "gdal"
   -- configurations
   -- -------------------------------------------------------------
 
-  if (os.is("windows") and not _TARGET_IS_WINRT and not _TARGET_IS_WINUWP and not _TARGET_IS_WINPHONE) then
+  if (os.is("windows") and not _TARGET_IS_WINUWP) then
     -- -------------------------------------------------------------
     -- configuration { "windows" }
     -- -------------------------------------------------------------
@@ -1177,7 +1177,7 @@ project "gdal"
     -- -------------------------------------------------------------
   end
 
-  if (os.is("macosx") and not _OS_IS_IOS and not _OS_IS_TVOS and not _OS_IS_ANDROID) then
+  if (os.is("macosx") and not _OS_IS_IOS and not _OS_IS_ANDROID) then
     -- -------------------------------------------------------------
     -- configuration { "macosx" }
     -- -------------------------------------------------------------
@@ -1237,74 +1237,6 @@ project "gdal"
 
       defines {
         cocoa_defines,
-      }
-
-    -- -------------------------------------------------------------
-    -- configuration { "ios_armv7_debug" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_ios_armv7_debug.lua")
-
-    -- project specific configuration settings
-
-    configuration { "ios_armv7_debug" }
-
-      defines {
-        neon_defines,
-        "RTC_NO_HAVE_UINT128_T", -- temporary fix to remove uint128_t support
-      }
-
-    -- -------------------------------------------------------------
-    -- configuration { "ios_armv7_release" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_ios_armv7_release.lua")
-
-    -- project specific configuration settings
-
-    configuration { "ios_armv7_release" }
-
-      defines {
-        neon_defines,
-        "RTC_NO_HAVE_UINT128_T", -- temporary fix to remove uint128_t support
-      }
-
-    -- -------------------------------------------------------------
-    -- configuration { "ios_sim_debug" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_ios_sim_debug.lua")
-
-    -- project specific configuration settings
-
-    configuration { "ios_sim_debug" }
-
-      defines {
-        intel_intrinsic_defines,
-        "RTC_NO_HAVE_UINT128_T", -- temporary fix to remove uint128_t support
-      }
-
-    -- -------------------------------------------------------------
-    -- configuration { "ios_sim_release" }
-    -- -------------------------------------------------------------
-
-    -- common configuration settings
-
-    dofile (_BUILD_DIR .. "/static_ios_sim_release.lua")
-
-    -- project specific configuration settings
-
-    configuration { "ios_sim_release" }
-
-      defines {
-        intel_intrinsic_defines,
-        "RTC_NO_HAVE_UINT128_T", -- temporary fix to remove uint128_t support
       }
 
     -- -------------------------------------------------------------
@@ -1456,32 +1388,32 @@ project "gdal"
       }
 
     -- -------------------------------------------------------------
-    -- configuration { "androidgles3_armv8_debug" }
+    -- configuration { "android_arm64_debug" }
     -- -------------------------------------------------------------
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/static_androidgles3_armv8_debug.lua")
+    dofile (_BUILD_DIR .. "/static_android_arm64_debug.lua")
 
     -- project specific configuration settings
 
-    configuration { "androidgles3_armv8_debug" }
+    configuration { "android_arm64_debug" }
 
       defines {
         neon_defines,
       }
 
     -- -------------------------------------------------------------
-    -- configuration { "androidgles3_armv8_release" }
+    -- configuration { "android_arm64_release" }
     -- -------------------------------------------------------------
 
     -- common configuration settings
 
-    dofile (_BUILD_DIR .. "/static_androidgles3_armv8_release.lua")
+    dofile (_BUILD_DIR .. "/static_android_arm64_release.lua")
 
     -- project specific configuration settings
 
-    configuration { "androidgles3_armv8_release" }
+    configuration { "android_arm64_release" }
 
       defines {
         neon_defines,
