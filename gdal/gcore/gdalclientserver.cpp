@@ -438,7 +438,9 @@ CPL_UNUSED
     const char* pszCWD)
 {
 #ifdef WIN32
+#ifndef RTC_WINDOWS_UNIVERSAL
     SetCurrentDirectory(pszCWD);
+#endif
 #else
     if(chdir(pszCWD) != 0)
         fprintf(stderr, "chdir(%s) failed\n", pszCWD);/*ok*/
@@ -452,7 +454,9 @@ CPL_UNUSED
 static void MyChdirRootDirectory()
 {
 #ifdef WIN32
+#ifndef RTC_WINDOWS_UNIVERSAL
     SetCurrentDirectory("C:\\");
+#endif
 #else
     CPLAssert(chdir("/") == 0);
 #endif
