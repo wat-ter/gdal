@@ -1050,7 +1050,7 @@ project "gdal"
     _3RDPARTY_DIR .. "/gdal/gdal/ogr/ogrsf_frmts/mem",
     _3RDPARTY_DIR .. "/gdal/gdal/ogr/ogrsf_frmts/sqlite",
     _3RDPARTY_DIR .. "/gdal/gdal/port",
-    _3RDPARTY_DIR .. "/giflib/lib",
+    _3RDPARTY_DIR .. "/giflib",
     _3RDPARTY_DIR .. "/jpeg",
     _3RDPARTY_DIR .. "/kakadu/include",
     _3RDPARTY_DIR .. "/libexpat/expat/lib",
