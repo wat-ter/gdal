@@ -1145,9 +1145,9 @@ project "gdal"
     -- project specific configuration settings
 
     configuration { "linux" }
-
+    
       defines {
-        intel_intrinsic_defines,
+        "KDU_NO_NEON", -- neon intrinsics for linux arm64 is not supported
       }
 
     -- -------------------------------------------------------------
